@@ -1,0 +1,19 @@
+spring:
+  mvc:
+    async:
+      request-timeout: 10000  #异步超时时间
+
+server:
+  tomcat: #tomcat 启动一个线程
+    accept-count: 1
+    max-connections: 2048
+    max-threads: 1
+    min-spare-threads: 1
+
+
+app:
+  thread-pools:
+    main: #default 线程
+      core-pool-size: 200
+    customize:
+      core-pool-size: 5
