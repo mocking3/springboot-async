@@ -4,12 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import net.runningcoder.async.config.CustomizeThreadPoolConfig;
 import net.runningcoder.async.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * Created by wangmaocheng on 2017/10/13.
@@ -17,6 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class TestController {
+
+    @Autowired
+    @Qualifier("main")
+    private Executor executor;
 
     @Autowired
     private TestService testService;
@@ -57,6 +66,13 @@ public class TestController {
         return new AsyncResult<>(result);
     }
 
+    @ResponseBody
+    @GetMapping(value = "async/test-dr")
+    public DeferredResult<String> asyncTestDr() {
+        DeferredResult<String> deferredResult = new DeferredResult<>();
+        executor.execute(() -> deferredResult.setResult(testService.hello()));
+        return deferredResult;
+    }
 
     @ResponseBody
     @GetMapping(value = "sync/test")
