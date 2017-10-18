@@ -32,7 +32,6 @@ public class TestController {
     private TestService testService;
 
     @Async
-    @ResponseBody
     @GetMapping(value = "async/test")
     public ListenableFuture<String> asyncTest() {
         String result = testService.hello();
@@ -40,14 +39,12 @@ public class TestController {
     }
 
     @Async
-    @ResponseBody
     @GetMapping(value = "async/test-exception")
     public ListenableFuture<String> asyncTestException() {
         throw new RuntimeException();
     }
 
     @Async
-    @ResponseBody
     @GetMapping(value = "async/test-timeout")
     public ListenableFuture<String> asyncTestTimeout() {
         String result = testService.hello();
@@ -60,14 +57,12 @@ public class TestController {
     }
 
     @Async(CustomizeThreadPoolConfig.THREAD_POOL_CUSTOMIZE)
-    @ResponseBody
     @GetMapping(value = "async/test-customize")
     public ListenableFuture<String> asyncTestCustomizeThreadPool() {
         String result = testService.hello();
         return new AsyncResult<>(result);
     }
 
-    @ResponseBody
     @GetMapping(value = "async/test-dr")
     public DeferredResult<String> asyncTestDeferredResult() {
         DeferredResult<String> deferredResult = new DeferredResult<>();
@@ -75,13 +70,11 @@ public class TestController {
         return deferredResult;
     }
 
-    @ResponseBody
     @GetMapping(value = "async/test-callable")
     public Callable<String> asyncTestCallable() {
         return () -> testService.hello();
     }
 
-    @ResponseBody
     @GetMapping(value = "sync/test")
     public String syncTest() {
         String result = testService.hello();
