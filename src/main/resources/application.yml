@@ -7,8 +7,8 @@ server:
   tomcat: #tomcat 启动一个线程
     accept-count: 10240
     max-connections: 10240
-    max-threads: 200
-    min-spare-threads: 200
+    max-threads: 1
+    min-spare-threads: 1
 
 
 app:
