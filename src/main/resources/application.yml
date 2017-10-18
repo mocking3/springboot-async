@@ -7,15 +7,16 @@ server:
   tomcat: #tomcat 启动一个线程
     accept-count: 10240
     max-connections: 10240
-    max-threads: 1
-    min-spare-threads: 1
+    max-threads: 200
+    min-spare-threads: 200
 
 
 app:
   thread-pools:
     main: #default 线程
-      core-pool-size: 200 #核心线程数，核心线程会一直存活，即使没有任务需要执行
-      max-pool-size: 200  #最大线程数，
+      core-pool-size: 128 #核心线程数，核心线程会一直存活，即使没有任务需要执行
+      queue-capacity: 2048  #等待队列大小
+      max-pool-size: 1024  #最大线程数，
                            #当线程数>=corePoolSize，且任务队列已满时，线程池会创建新线程来处理任务
                            #当线程数=maxPoolSize，且任务队列已满时，线程池会拒绝处理任务而抛出异常
     customize:

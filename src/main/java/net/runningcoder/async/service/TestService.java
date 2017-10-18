@@ -13,7 +13,7 @@ public class TestService {
     public String hello() {
         log.info("开始执行hello方法...");
         try {
-            Thread.sleep(300);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

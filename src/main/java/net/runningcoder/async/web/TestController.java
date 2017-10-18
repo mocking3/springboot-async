@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -68,10 +69,16 @@ public class TestController {
 
     @ResponseBody
     @GetMapping(value = "async/test-dr")
-    public DeferredResult<String> asyncTestDr() {
+    public DeferredResult<String> asyncTestDeferredResult() {
         DeferredResult<String> deferredResult = new DeferredResult<>();
         executor.execute(() -> deferredResult.setResult(testService.hello()));
         return deferredResult;
+    }
+
+    @ResponseBody
+    @GetMapping(value = "async/test-callable")
+    public Callable<String> asyncTestCallable() {
+        return () -> testService.hello();
     }
 
     @ResponseBody
